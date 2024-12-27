@@ -7,11 +7,12 @@ class VideoWriter:
     Simplifies exporting videos with opencv
     """
 
-    def __init__(self, path="video.mp4", fps=60):  # TODO fps more vaiable
+    def __init__(self, path="./video.mp4", fps=30, channels="rgb"):  # TODO fps more vaiable
 
         self._path = path
         self._fps = fps
         self._cv_videowriter = None
+        self._channels = channels
 
         self._format = cv2.VideoWriter_fourcc(*'mp4v')  # TODO add support for mp4 and avi
 
@@ -24,6 +25,10 @@ class VideoWriter:
 
         if frame.dtype == np.float32 or frame.dtype == np.float64:
             frame = (frame * 255).astype(np.uint8)
+
+        if self._channels == "rgb":
+            frame = cv2.cvtColor(frame, cv2.COLOR_RGB2BGR)
+
 
         self._cv_videowriter.write(frame)
 
