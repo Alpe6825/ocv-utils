@@ -1,19 +1,23 @@
 # OCV_Utils 
 
+Simplifies OpenCV functionalities for image and video i/o and debug-windows.
 
-
+**Main Features:**
+- uses _rgb_ instead of _bgr_ by default for image and video i/o
+- adds a loop and boomarange mode for video capture
+- imshow() accepts lists of images that will be automatically displayed next to each other, independent of their formats
+- easier trackbar integration
 
 ## Install
 
 ```bash
+pip3 install ocv_utils
 pip3 install git+https://github.com/Alpe6825/ocv_utils
 ```
 
-## Utils
+## Usage
 
-### Image I/O
-
-#### Loading
+### Image Loading
 
 Load image and convert it to a certain channel type definition. Supported types `rgb`, `rgba`, `gray`
 
@@ -23,9 +27,8 @@ from ocv_utils import load_image
 img = load_image("my_image.png", channels="rgba")
 ```
 
-### Video I/O
+### Video Reading
 
-#### Reading
 ```python
 from ocv_utils import VideoReader
 
