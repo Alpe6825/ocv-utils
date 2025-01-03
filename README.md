@@ -4,7 +4,7 @@ Simplifies OpenCV functionalities for image and video i/o and debug-windows.
 
 **Main Features:**
 - uses _rgb_ instead of _bgr_ by default for image and video i/o
-- adds a loop and boomarange mode for video capture
+- adds a loop and boomerang mode for video player
 - imshow() accepts lists of images that will be automatically displayed next to each other, independent of their formats
 - easier trackbar integration
 
@@ -12,7 +12,6 @@ Simplifies OpenCV functionalities for image and video i/o and debug-windows.
 
 ```bash
 pip3 install ocv_utils
-pip3 install git+https://github.com/Alpe6825/ocv_utils
 ```
 
 ## Usage
@@ -29,21 +28,40 @@ img = load_image("my_image.png", channels="rgba")
 
 ### Video Reading
 
+Play modes: ["normal", "loop", "boomerang"]
+
 ```python
 from ocv_utils import VideoReader
 
-video = VideoReader("video.mp4")
+video = VideoReader("video.mp4", play_mode="normal")
 
 # cv2 like
 while True:
     ret, frame = video.read()
-    if not ret:
-        break
+    if not ret: # CAUTION: for play_mode "loop" and "boomerang" `ret` is the frame id, so break will be called at frame 0.
+        break   # Don't use this with play_mode "loop" or "boomerang"
 
 # Or read certain frame
 ret, frame = video.read(frame_id=42)
 ```
 
+### Video Writing
+
+```python
+from ocv_utils import VideoWriter
+import numpy as np
+
+img = np.zeros((512, 512, 3))
+
+video_writer = VideoWriter(path="video.mp4", fps=30, channels="rgb")
+for i in range(1000):
+    video_writer.add_frame(img)
+
+# or with horizontal stacking 
+video_writer = VideoWriter("hstack.mp4")
+for i in range(1000):
+    video_writer.add_frame([img, img])
+```
 
 
 ### Window
